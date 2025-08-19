@@ -1,4 +1,2 @@
 @import "tailwindcss";
-@plugin "daisyui" {
-  themes: light --default, dark --prefersdark, cupcake;
-}
+/* DaisyUI should be configured in tailwind.config.js, not via @plugin in CSS */

@@ -13,7 +13,7 @@ import SimilerVideos from "./SimilerVideos";
 
 const WatchPage = () => {
   const dispatch = useDispatch();
-  dispatch(closeMenu());
+ 
   const [searchParams] = useSearchParams();
   const [specificVideoData, setSpecificVideoData] = useState([]);
   const [commentList, setCommentList] = useState();
@@ -23,7 +23,7 @@ const WatchPage = () => {
       YOUTUBE_SPECIFIC_VIDEO_iNFORMATION_API + "&id=" + searchParams.get("v")
     );
     const json = await data.json();
-    // console.log(json.items[0]);
+ 
     setSpecificVideoData(json.items[0]);
   };
 
@@ -33,11 +33,12 @@ const WatchPage = () => {
     );
     const json = await data.json();
     setCommentList(json.items);
-    console.log(json.items);
+  
   };
   useEffect(() => {
     specificVideoApi();
     commentSectionApi();
+     dispatch(closeMenu());
   }, []);
 
   if (!specificVideoData) return;

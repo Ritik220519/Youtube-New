@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 const SimilerVideoCard = ({ data }) => {
-  console.log("most : ", data);
+  
   const { channelTitle, title } = data.snippet;
   const { url } = data.snippet.thumbnails.default;
 

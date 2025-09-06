@@ -15,7 +15,7 @@ const VideoContainer = () => {
     const data = await fetch(YOUTUBE_API_KEY);
     const json = await data.json();
     dispatch(addVideos(json.items));
-    console.log("video : ", json.items);
+  
   };
 
   useEffect(() => {

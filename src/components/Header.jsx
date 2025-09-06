@@ -42,7 +42,7 @@ const Header = () => {
   const searchSuggestion = async () => {
     const data = await fetch(YOUTUBE_SEARCH_API + searchText);
     const json = await data.json();
-    console.log(json[1]);
+   
     setSearchSuggestions(json[1]);
     dispatch(cacheResults({ [searchText]: json[1] }));
   };
@@ -54,7 +54,7 @@ const Header = () => {
     const json = await data.json();
     dispatch(addSearchVideos(json.items));
     navigate("/searchvideo");
-    console.log("suggestion video : ", json.items);
+    
   };
 
   return (

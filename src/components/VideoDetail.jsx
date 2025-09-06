@@ -6,7 +6,7 @@ const VideoDetail = ({ data }) => {
   const { channelTitle, title } = data.snippet;
   const { commentCount } = data.statistics;
 
-  console.log("videoData : " ,data)
+  
   return (
     <div className="py-2 ">
       <h2 className="text-xl font-bold m-2">{title}</h2>

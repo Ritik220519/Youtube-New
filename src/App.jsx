@@ -7,7 +7,7 @@ import store from "./components/Redux/store";
 import { createBrowserRouter, Route, RouterProvider, Routes } from "react-router-dom";
 import MainContainer from "./components/MainContainer";
 import WatchPage from "./components/WatchPage";
-import SearchSuggestions from "./components/SearchSuggestions";
+
 import VideoShimmer from "./components/VideoShimmer";
 
 import SearchSuggestionVideo from "./components/SearchSuggestionVideo";
@@ -26,10 +26,7 @@ function App() {
           path: "/watch",
           element: <WatchPage />,
         },
-        {
-          path: "/search",
-          element: <SearchSuggestions />,
-        },
+   
            {
           path: "/shimmer",
           element: <VideoShimmer/>,

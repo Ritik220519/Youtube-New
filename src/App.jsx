@@ -10,6 +10,8 @@ import WatchPage from "./components/WatchPage";
 import SearchSuggestions from "./components/SearchSuggestions";
 import VideoShimmer from "./components/VideoShimmer";
 
+import SearchSuggestionVideo from "./components/SearchSuggestionVideo";
+
 function App() {
   const appRouter = createBrowserRouter([
     {
@@ -31,6 +33,10 @@ function App() {
            {
           path: "/shimmer",
           element: <VideoShimmer/>,
+        },
+        {
+          path: "/searchvideo",
+          element: <SearchSuggestionVideo/>
         },
       ],
     },

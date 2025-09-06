@@ -8,13 +8,15 @@ import {
 } from "./utils/constant";
 import VideoDetail from "./VideoDetail";
 import CommentList from "./CommentList";
+import LiveChat from "./LiveChat";
+import SimilerVideos from "./SimilerVideos";
 
 const WatchPage = () => {
   const dispatch = useDispatch();
-
+  dispatch(closeMenu());
   const [searchParams] = useSearchParams();
-  const [specificVideoData, setSpecificVideoData] = useState(null);
-  const [commentList, setCommentList] = useState(null);
+  const [specificVideoData, setSpecificVideoData] = useState([]);
+  const [commentList, setCommentList] = useState();
 
   const specificVideoApi = async () => {
     const data = await fetch(
@@ -34,7 +36,6 @@ const WatchPage = () => {
     console.log(json.items);
   };
   useEffect(() => {
-    dispatch(closeMenu());
     specificVideoApi();
     commentSectionApi();
   }, []);
@@ -43,22 +44,35 @@ const WatchPage = () => {
   if (!commentList) return;
 
   return (
-    <div className="m-2 p-2 py-2 ">
-      <iframe
-        width="1000"
-        height="500"
-        src={"https://www.youtube.com/embed/" + searchParams.get("v")}
-        title="YouTube video player"
-        frameBorder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        referrerPolicy="strict-origin-when-cross-origin"
-        allowFullScreen
-      ></iframe>
-      <VideoDetail data={specificVideoData} />
+    <div className="m-2 p-2 py-2  ">
+      <div className="grid grid-flow-col ">
+        <div className="grid grid-cols-1 col-span-12 overflow-x-auto">
+          <iframe
+            width="1050"
+            height="500"
+            src={"https://www.youtube.com/embed/" + searchParams.get("v")}
+            title="YouTube video player"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerPolicy="strict-origin-when-cross-origin"
+            allowFullScreen
+          ></iframe>
+          <div className="py-4">
+            <VideoDetail data={specificVideoData} />
 
-      {commentList.map((comment) => (
-        <CommentList key={comment.id} comment={comment} />
-      ))}
+            {commentList.map((comment) => (
+              <CommentList key={comment.id} comment={comment} />
+            ))}
+          </div>
+        </div>
+        <div>
+          <LiveChat />
+           <div className="py-4  ">
+          <SimilerVideos />
+        </div>
+        </div>
+       
+      </div>
     </div>
   );
 };

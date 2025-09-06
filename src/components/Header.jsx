@@ -6,20 +6,23 @@ import {
   YOUTUBE_SEARCH_SUGGESTION_VIDEO_API,
 } from "./utils/constant";
 import { cacheResults } from "./Redux/searchCacheSlice";
-import SearchSuggestions from "./SearchSuggestions";
-import { Link, useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { addSearchVideos } from "./Redux/searchSuggestionVideo";
 
 const Header = () => {
   const [searchText, setSearchText] = useState("");
   const [searchSuggestions, setSearchSuggestions] = useState([]);
   const [showSuggestion, setShowSuggestion] = useState(false);
- 
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const cache = useSelector((store) => store.searchCache || {});
-  const navigate = useNavigate();
- 
+
+  const toggleMenuHandler = () => {
+    dispatch(toggleMenu());
+  };
+
   useEffect(() => {
     // Debounce the search suggestion to avoid too many API calls
 
@@ -44,39 +47,36 @@ const Header = () => {
     dispatch(cacheResults({ [searchText]: json[1] }));
   };
 
-  const toggleMenuHandler = () => {
-    dispatch(toggleMenu());
-  };
-  
-
-  const handleSearchApi = async (eachSuggestion) => {
+  const searchSuggestionVideoApi = async (suggestion) => {
     const data = await fetch(
-      YOUTUBE_SEARCH_SUGGESTION_VIDEO_API + eachSuggestion
+      YOUTUBE_SEARCH_SUGGESTION_VIDEO_API + "&q=" + suggestion
     );
     const json = await data.json();
-   
-    console.log(json);
+    dispatch(addSearchVideos(json.items));
+    navigate("/searchvideo");
+    console.log("suggestion video : ", json.items);
   };
-  useEffect(() => {
-    handleSearchApi();
-  }, []);
 
   return (
     <div className="grid grid-flow-col px-2  shadow-lg">
       <div className="flex col-span-2 m-2 gap-8 cursor-pointer">
+        {" "}
         <img
           onClick={() => toggleMenuHandler()}
           className="w-8 "
           src="https://cdn-icons-png.flaticon.com/512/2516/2516745.png"
           alt="ham-logo"
         />
-        <img
-          className="w-26 mx-6  "
-          src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/YouTube_Logo_2017.svg/768px-YouTube_Logo_2017.svg.png"
-          alt="yt-logo"
-        />
+        <Link to={"/"}>
+          {" "}
+          <img
+            className=" w-26 mx-6 my-2  "
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/YouTube_Logo_2017.svg/768px-YouTube_Logo_2017.svg.png"
+            alt="yt-logo"
+          />
+        </Link>
       </div>
-      <div className="col-span-10 m-2  ">
+      <div className="col-span-10 m-2 relative ">
         <input
           onFocus={() => setShowSuggestion(true)}
           onBlur={() => setShowSuggestion(false)}
@@ -90,13 +90,17 @@ const Header = () => {
           🔍
         </button>
         {showSuggestion && (
-          <div className="m-2 w-[450px] absolute bg-white rounded-lg shadow-lg">
+          <div className="absolute left-0 top-full mt-2 w-[450px] bg-white rounded-lg shadow-lg z-50">
             <ul>
               {searchSuggestions.map((suggestion) => (
-            <li
-                 onClick={()=> navigate(`/search/${suggestion}`)} 
+                <li
+                  onMouseDown={(e) => {
+                    e.preventDefault();
+                    searchSuggestionVideoApi(suggestion);
+                    setShowSuggestion(false);
+                  }}
                   key={suggestion}
-                  className="m-2  text-lg font-semibold hover:bg-gray-200 cursor-pointer"
+                  className="m-2  text-lg font-semibold relative hover:bg-gray-200 cursor-pointer"
                 >
                   🔍 {suggestion}
                 </li>

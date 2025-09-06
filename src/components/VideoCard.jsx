@@ -7,21 +7,25 @@ const { viewCount} = data.statistics;
 
 
   return (
-    <div className="m-2 p-2  flex justify-around flex-wrap gap-6 ">
-      <div className="card bg-base-100 w-86 shadow-sm rounded-2xl">
-        <figure>
+       <div className="sm:w-62 md:w-80 lg:w-full xl:w-full  p-4 ">
+      <div className=" bg-white rounded-lg shadow hover:shadow-lg duration-200 ">
+        <div className="relative pb-[56.25%] rounded-t-lg overflow-hidden">
           <img
-          className="rounded-lg"
             src={url}
-            alt="Shoes"
+            alt={title}
+            className="absolute top-0 left-0 w-full h-full object-cover"
           />
-        </figure>
-        <div className="card-body ">
-          <h2 className="card-title font-bold">{title}</h2>
-          <p>{channelTitle}</p>
-          <span>{viewCount} view</span>
-          
-         
+        </div>
+        <div className="flex items-start gap-3 p-3">
+          {/* Placeholder avatar, replace with channel image if available */}
+          <div className="w-10 h-10 rounded-full bg-gray-200 flex-shrink-0 flex items-center justify-center text-gray-400 font-bold text-lg">
+            {channelTitle[0]}
+          </div>
+          <div className="flex flex-col">
+            <h3 className="text-sm font-semibold line-clamp-2">{title}</h3>
+            <p className="text-xs text-gray-600 mt-1">{channelTitle}</p>
+            <span className="text-xs text-gray-500">{viewCount} views</span>
+          </div>
         </div>
       </div>
     </div>
